@@ -2,10 +2,10 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
+function getSupabase() { return createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+); }
 
 const FILTERS = ['All', 'Fishing', 'Pontoon', 'Tritoon', 'Bowrider', 'Deck Boat', 'Offshore'];
 
@@ -17,7 +17,7 @@ export default function Inventory() {
 
   useEffect(() => {
     async function fetchBoats() {
-      const { data } = await supabase
+      const { data } = await getSupabase()
         .from('boats')
         .select('*')
         .eq('status', 'available')
